@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Side-by-Side Diff Changes"
+  short_description: "Creates focused plugin commits"
+  default_prompt: "Use $commit-side-by-side-diff to commit the current Side-by-Side Diff changes."

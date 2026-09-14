@@ -1,0 +1,34 @@
+# Side-by-Side Diff Agent Instructions
+
+## Scope
+
+This file contains project-specific guidance. Keep general, cross-project behavior in the user's global agent
+instructions and keep task-specific procedures in `agent-skills/`.
+
+## Language
+
+- Write agent instructions, skills, and project process documentation in English.
+- Preserve the required language of user-facing content. The plugin ships German and English translations, so update
+  both locale files and keep their keys aligned when adding visible strings.
+
+## Project Map
+
+- `README.md` is the concise user-facing entry point.
+- `FEATURES.md` defines the feature scope and acceptance criteria.
+- `CONTRIBUTING.md` documents development, validation, and review expectations.
+- `src/` contains the TypeScript plugin; `tests/` contains its focused unit tests.
+- `main.js` is generated and ignored. Do not add it to commits.
+
+## Project Skills
+
+Read the relevant skill before acting on a matching request:
+
+- `agent-skills/commit-side-by-side-diff/SKILL.md` for committing current plugin changes.
+- `agent-skills/publish-obsidian-plugin-release/SKILL.md` for preparing a plugin release for manual publishing.
+
+## Changes and Validation
+
+- Keep changes focused and preserve unrelated working-tree changes.
+- For behavior changes, add or update focused tests and update user-facing documentation when needed.
+- Use the repository scripts from `CONTRIBUTING.md` for validation. Run a build for plugin-source changes, not to add
+  generated output to Git.
