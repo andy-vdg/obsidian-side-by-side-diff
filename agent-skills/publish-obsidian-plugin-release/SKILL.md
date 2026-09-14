@@ -12,8 +12,10 @@ never runs the release workflow itself.
 
 - Verify that `scripts/release.mjs`, `manifest.json`, and `versions.json` exist.
 - Ask for a target version in `x.y.z` format when none is provided; never infer it from the changes.
-- Review the `Unreleased` notes in `CHANGELOG.md`, the current manifest version, and the working tree. Report any
-  release blocker, including a dirty tree, without cleaning, committing, discarding, or stashing user changes.
+- Confirm that `CHANGELOG.md` contains the exact heading `## [Unreleased]` with release notes beneath it; the release
+  script rejects an unbracketed `## Unreleased` heading.
+- Review the current manifest version and working tree. Report any release blocker, including a dirty tree, without
+  cleaning, committing, discarding, or stashing user changes.
 
 ## Hand Off Publishing
 

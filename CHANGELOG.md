@@ -2,7 +2,7 @@
 
 All notable changes to Side-by-Side Diff are documented here.
 
-## Unreleased
+## [Unreleased]
 
 ### Fixed
 
