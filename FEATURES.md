@@ -32,8 +32,8 @@ visible, can be reviewed and staged individually, and are written only through a
 
 ### Grouped change blocks
 
-- Changed rows that are only separated by blank-line pairs are grouped into one visual block instead of being shown
-  as disconnected single-line edits interrupted by lonely blank rows.
+- Contiguous changed rows, and rows only separated by blank-line pairs, are grouped into one visual block instead of
+  being shown as disconnected single-line edits interrupted by lonely blank rows.
 - A block with more than three changed lines shows a header with the number of changed lines and `Accept all` /
   `Ignore all` controls that act on every changed row in the block at once.
 - The block header disappears once every row in the block has been resolved, whether through the block controls or

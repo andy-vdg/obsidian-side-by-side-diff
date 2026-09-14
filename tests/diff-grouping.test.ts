@@ -1,8 +1,20 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { alignSequences, indexDiffRows, splitLines } from "../src/diff-core.ts";
 import { countGroupChangedRows, getActionableRowIndexes, groupChangeRows } from "../src/diff-grouping.ts";
 import type { DiffRow } from "../src/diff-core.ts";
 
+/** Builds aligned rows from a pair of comparison fixtures. */
+async function getFixtureRows(leftFixture: string, rightFixture: string): Promise<DiffRow[]> {
+	const [leftContent, rightContent] = await Promise.all([
+		readFile(new URL(`./fixtures/${leftFixture}`, import.meta.url), "utf8"),
+		readFile(new URL(`./fixtures/${rightFixture}`, import.meta.url), "utf8"),
+	]);
+	return indexDiffRows(alignSequences(splitLines(leftContent), splitLines(rightContent), (left, right) => left === right));
+}
+
+/** Creates a single row with the requested comparison state. */
 function row(left: string | null, right: string | null, equal: boolean): DiffRow {
 	return { left, right, equal };
 }
@@ -17,6 +29,17 @@ test("reports adjacent changed rows as an unbridged group", () => {
 	const rows = [row("x1", "y1", false), row("x2", "y2", false)];
 
 	assert.deepEqual(groupChangeRows(rows), [{ startIndex: 0, endIndex: 1, bridgesBlankLines: false }]);
+});
+
+test("treats directly adjacent fixture changes as one actionable block", async () => {
+	const rows = await getFixtureRows("contiguous-block-left.md", "contiguous-block-right.md");
+	const groups = groupChangeRows(rows);
+	const [group] = groups;
+
+	assert.equal(groups.length, 1);
+	assert.ok(group);
+	assert.equal(group.bridgesBlankLines, false);
+	assert.equal(countGroupChangedRows(rows, group), 4);
 });
 
 test("bridges a single blank line between two changed rows", () => {

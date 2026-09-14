@@ -2,6 +2,12 @@
 
 All notable changes to Side-by-Side Diff are documented here.
 
+## Unreleased
+
+### Fixed
+
+- Fixed directly adjacent changed rows not receiving a visual block or block actions.
+
 ## [0.6.0] - 2026-09-03
 
 ### Added

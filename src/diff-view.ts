@@ -1214,12 +1214,10 @@ export class SideBySideDiffView extends ItemView {
       this.updateChangeNavigationState();
       return;
     }
-    const blankBridgedGroups = new Map(
-      groupChangeRows(rows).filter((group) => group.bridgesBlankLines).map((group) => [group.startIndex, group])
-    );
+    const changeGroups = new Map(groupChangeRows(rows).map((group) => [group.startIndex, group]));
     let index = 0;
     while (index < rows.length) {
-      const group = blankBridgedGroups.get(index);
+      const group = changeGroups.get(index);
       if (group) {
         const unresolvedRowCount = countGroupChangedRows(rows, group, (row) => this.session.hasDismissedRow(getDiffRowKey(row)));
         // Once every row in the block is resolved (e.g. via "Ignore all"), stop wrapping it in a
@@ -1254,7 +1252,7 @@ export class SideBySideDiffView extends ItemView {
     }
     this.buildRow(parent, row, rowIndex, !row.equal);
   }
-  /** Adds a header with block-wide accept/ignore controls above a large bridged change group. */
+  /** Adds a header with block-wide accept/ignore controls above a large change group. */
   buildGroupHeader(parent: HTMLElement, rows: ComparisonRowModel[], group: ChangeRowGroup, changedRowCount: number): void {
     const header = parent.createDiv({ cls: "file-diff-sbs-group-header" });
     header.createSpan({

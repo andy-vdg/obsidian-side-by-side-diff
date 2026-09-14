@@ -4,6 +4,7 @@ import type { DiffRow } from "./diff-core.ts";
 export interface ChangeRowGroup {
 	readonly startIndex: number;
 	readonly endIndex: number;
+	/** Indicates whether unchanged blank rows connect separate changed paragraphs. */
 	readonly bridgesBlankLines: boolean;
 }
 
@@ -20,9 +21,8 @@ function isBlankEqualRow(row: DiffRow): boolean {
 /**
  * Groups contiguous runs of changed rows into spans, bridging blank-line pairs in between so a
  * paragraph rewritten across several lines reads as one block instead of disconnected
- * single-line edits interrupted by lonely blank rows. A single isolated changed row stays
- * ungrouped; callers typically only render a visual wrapper for `bridgesBlankLines` spans, since
- * a plain contiguous run already reads as one block without extra styling.
+ * single-line edits interrupted by lonely blank rows. Both directly adjacent and blank-line-
+ * bridged runs are visual blocks; a single isolated changed row stays ungrouped.
  */
 export function groupChangeRows(rows: readonly DiffRow[]): ChangeRowGroup[] {
 	const groups: ChangeRowGroup[] = [];

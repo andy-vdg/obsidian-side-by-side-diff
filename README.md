@@ -35,7 +35,7 @@ selectively accept or reject edits; changes are written only when explicitly sav
 - navigate between changes with `Next change` / `Previous change`, `Alt+ArrowDown` / `Alt+ArrowUp`, and automatic scrolling
 - automatically continue with the next open change after accepting or ignoring one (configurable, enabled by default)
 - accept individual changes on the right or deliberately ignore them
-- group changed lines separated only by blank lines into one block, with `Accept all` / `Ignore all` for larger blocks
+- group contiguous changed lines, or lines separated only by blank lines, into one block, with `Accept all` / `Ignore all` for larger blocks
 - undo the last accept or ignore action with the `Undo` button or `Ctrl/Cmd+Z`, until it is saved
 - remember the last five right-hand files and show them first in the right-file selector
 - edit the right-hand file directly and save changes in one step
@@ -69,7 +69,7 @@ The left and right files are displayed in sync. Line changes and differences wit
 `Swap` to switch the files and their direction. If changes are pending, the plugin asks whether to save or discard
 them first.
 
-Changed lines separated only by blank lines are grouped into one block; a block with more than three changed lines
+Contiguous changed lines, as well as changes separated only by blank lines, are grouped into one block; a block with more than three changed lines
 gets `Accept all` / `Ignore all` controls to resolve it in one step. `Undo` (button or `Ctrl/Cmd+Z`) reverts the last
 accept or ignore action, single row or whole block, until it is saved.
 
