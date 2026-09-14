@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fix Side-by-Side Diff Bug"
+  short_description: "Fixes a bug with a regression test and changelog entry"
+  default_prompt: "Use $fix-side-by-side-diff-bug to fix <describe the bug> in Side-by-Side Diff."

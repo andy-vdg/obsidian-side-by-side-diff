@@ -8,6 +8,9 @@ directs an agent here only when a task matches a documented workflow.
 ```text
 agent-skills/
 ├── README.md
+├── fix-side-by-side-diff-bug/
+│   ├── SKILL.md
+│   └── agents/openai.yaml
 ├── commit-side-by-side-diff/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
@@ -18,6 +21,7 @@ agent-skills/
 
 ## Available Skills
 
+- `fix-side-by-side-diff-bug` fixes a reported bug with a regression test and a changelog entry.
 - `commit-side-by-side-diff` creates focused commits without pushing, tagging, or publishing.
 - `publish-obsidian-plugin-release` prepares a release and hands the publishing command to the user.
 
