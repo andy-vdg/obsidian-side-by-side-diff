@@ -4,6 +4,8 @@ All notable changes to Side-by-Side Diff are documented here.
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-09-25
+
 ### Added
 
 - Added a localized five-step introduction that opens once after an update when it has not been seen yet, covering
