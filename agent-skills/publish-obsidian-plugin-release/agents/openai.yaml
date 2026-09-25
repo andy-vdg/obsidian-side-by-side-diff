@@ -1,4 +1,4 @@
 interface:
   display_name: "Prepare Obsidian Plugin Release"
-  short_description: "Prepares a release for manual publishing"
-  default_prompt: "Use $publish-obsidian-plugin-release to prepare Side-by-Side Diff version x.y.z and provide the release command."
+  short_description: "Checks release readiness and gives the safe release command"
+  default_prompt: "Use $publish-obsidian-plugin-release to check whether Side-by-Side Diff version x.y.z is ready, then provide the safe release command."
