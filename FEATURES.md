@@ -81,6 +81,9 @@ visible, can be reviewed and staged individually, and are written only through a
 
 ### Other actions
 
+- The plugin opens a short, five-step introduction once after an update when it has not been seen yet. It covers
+  comparison entry points, file selection, navigation, change groups, feedback, documentation, and a closing
+  thank-you note. It can be reopened through the settings page or the command palette.
 - Identical files show a dedicated message.
 - From that message, one of the files can be moved to the Obsidian trash after confirmation. The file is not
   permanently deleted and can be restored.

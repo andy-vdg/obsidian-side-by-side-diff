@@ -135,6 +135,81 @@
 	margin-top: 1rem;
 }
 
+.file-diff-sbs-introduction-modal {
+	width: min(48rem, calc(100vw - 2rem));
+}
+
+.file-diff-sbs-introduction h3,
+.file-diff-sbs-introduction h4 {
+	margin-top: 0;
+}
+
+.file-diff-sbs-introduction p {
+	line-height: 1.5;
+}
+
+.file-diff-sbs-introduction-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem 0.75rem;
+	margin-top: 1rem;
+}
+
+.file-diff-sbs-introduction-section + .file-diff-sbs-introduction-section {
+	margin-top: 1.25rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.file-diff-sbs-introduction-section h4 {
+	margin-bottom: 0.35rem;
+}
+
+.file-diff-sbs-introduction-section p {
+	margin-top: 0;
+}
+
+.file-diff-sbs-introduction-workflow + .file-diff-sbs-introduction-workflow {
+	margin-top: 1.25rem;
+	padding-top: 1.25rem;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.file-diff-sbs-introduction-workflow h4 {
+	margin-bottom: 0.35rem;
+}
+
+.file-diff-sbs-introduction-workflow p {
+	margin-top: 0;
+}
+
+.file-diff-sbs-introduction-image {
+	display: block;
+	box-sizing: border-box;
+	width: auto;
+	max-width: 100%;
+	max-height: 18rem;
+	margin-top: 0.75rem;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	background: var(--background-primary-alt);
+	object-fit: contain;
+}
+
+.file-diff-sbs-introduction-actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.5rem;
+	margin-top: 1rem;
+}
+
+.file-diff-sbs-introduction-progress {
+	margin-right: auto;
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+}
+
 .file-diff-sbs-scroll {
 	flex: 1;
 	min-height: 0;

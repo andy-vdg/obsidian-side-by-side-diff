@@ -17,6 +17,7 @@ selectively accept or reject edits; changes are written only when explicitly sav
 
 - [At a glance](#at-a-glance)
 - [Quick start](#quick-start)
+- [Keyboard shortcuts](#keyboard-shortcuts)
 - [Three workflows](#three-workflows)
 - [Edit and save](#edit-and-save)
 - [Installation](#installation)
@@ -45,6 +46,11 @@ selectively accept or reject edits; changes are written only when explicitly sav
 
 ## Quick start
 
+After an update, the plugin opens its short guided introduction once if you have not seen it yet. It covers the
+comparison entry points, file selection, keyboard navigation, change groups, feedback, documentation, and a closing
+thank-you note.
+Open it again from **Settings → Side-by-Side Diff → Introduction** or through the `Show introduction` command.
+
 The comparison icon in the left ribbon and `Compare with another file` in the active document's menu lead to the
 same view as the command palette:
 
@@ -60,6 +66,21 @@ directly with both files:
 3. Review the synchronized view. Use `→` to stage a change as a proposal, or `×` to ignore the left-hand diff.
 4. Navigate between changes with the toolbar or `Alt+ArrowDown` / `Alt+ArrowUp`; accept or ignore the highlighted change with `Alt+ArrowRight` / `Alt+ArrowLeft`.
 5. Save all staged changes with `Save changes` or `Ctrl/Cmd + S`.
+
+## Keyboard shortcuts
+
+The following shortcuts are available while a comparison view has focus:
+
+![Keyboard shortcuts for the comparison view](assets/keyboard-shortcuts.webp)
+
+| Shortcut | Action |
+| --- | --- |
+| `Alt+ArrowDown` | Go to the next change |
+| `Alt+ArrowUp` | Go to the previous change |
+| `Alt+ArrowRight` | Accept the highlighted change |
+| `Alt+ArrowLeft` | Ignore the highlighted change |
+| `Ctrl/Cmd+Z` | Undo the most recent accept or ignore action, until saving |
+| `Ctrl/Cmd+S` | Save staged changes |
 
 ## Three workflows
 

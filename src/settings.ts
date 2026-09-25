@@ -2,13 +2,10 @@ import { PluginSettingTab, Setting } from "obsidian";
 import type { App, SettingDefinitionItem } from "obsidian";
 import type FileDiffSideBySidePlugin from "./main";
 import { DEFAULT_SETTINGS, isLanguagePreference, sanitizeCopySuffix } from "./settings-model";
+import { AUTHOR_WEBSITE_URL, GITHUB_FEEDBACK_URL, GITHUB_REPOSITORY_URL } from "./external-links";
 
 export { DEFAULT_SETTINGS, isLanguagePreference, normalizePluginSettings, sanitizeCopySuffix } from "./settings-model";
 export type { PluginSettings } from "./settings-model";
-
-const AUTHOR_WEBSITE_URL = "https://blum-nico.de";
-const GITHUB_REPOSITORY_URL = "https://github.com/nblum/obsidian-side-by-side-diff";
-const GITHUB_FEEDBACK_URL = `${GITHUB_REPOSITORY_URL}/issues/new`;
 
 /** Renders plugin settings for current and legacy Obsidian versions. */
 export class FileDiffSettingsTab extends PluginSettingTab {
@@ -27,6 +24,11 @@ export class FileDiffSettingsTab extends PluginSettingTab {
         name: this.plugin.translate("settings.about.name"),
         desc: this.createAboutDescription(),
         searchable: false
+      },
+      {
+        name: this.plugin.translate("settings.introduction.name"),
+        desc: this.plugin.translate("settings.introduction.description"),
+        action: (): void => { this.plugin.showIntroduction(); }
       },
       {
         name: this.plugin.translate("settings.language.name"),
@@ -104,6 +106,9 @@ export class FileDiffSettingsTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
     new Setting(containerEl).setName(this.plugin.translate("settings.about.name")).setDesc(this.createAboutDescription());
+    new Setting(containerEl).setName(this.plugin.translate("settings.introduction.name")).setDesc(this.plugin.translate("settings.introduction.description")).addButton((button) => {
+      button.setButtonText(this.plugin.translate("settings.introduction.button")).onClick(() => { this.plugin.showIntroduction(); });
+    });
     new Setting(containerEl).setName(this.plugin.translate("settings.language.name")).setDesc(this.plugin.translate("settings.language.description")).addDropdown((dropdown) => {
       dropdown.addOption("auto", this.plugin.translate("settings.language.auto")).addOption("de", this.plugin.translate("settings.language.de")).addOption("en", this.plugin.translate("settings.language.en")).setValue(this.plugin.settings.language).onChange(async (value) => {
         this.plugin.updateLanguage(value);

@@ -8,6 +8,7 @@ export interface PluginSettings {
 	changeCopySuffix: string;
 	language: LanguagePreference;
 	recentRightFilePaths: string[];
+	introductionSeen: boolean;
 }
 
 /** Provides stable defaults for new or incomplete plugin installations. */
@@ -16,7 +17,8 @@ export const DEFAULT_SETTINGS: PluginSettings = {
 	autoAdvanceAfterChange: true,
 	changeCopySuffix: "_changes_",
 	language: "auto",
-	recentRightFilePaths: []
+	recentRightFilePaths: [],
+	introductionSeen: false
 };
 
 /** Checks whether a persisted or UI value is a supported language preference. */
@@ -37,6 +39,7 @@ export function normalizePluginSettings(value: unknown): PluginSettings {
 		autoAdvanceAfterChange: typeof storedSettings.autoAdvanceAfterChange === "boolean" ? storedSettings.autoAdvanceAfterChange : DEFAULT_SETTINGS.autoAdvanceAfterChange,
 		changeCopySuffix: typeof storedSettings.changeCopySuffix === "string" ? sanitizeCopySuffix(storedSettings.changeCopySuffix) : DEFAULT_SETTINGS.changeCopySuffix,
 		language: isLanguagePreference(storedSettings.language) ? storedSettings.language : DEFAULT_SETTINGS.language,
-		recentRightFilePaths: normalizeRecentFilePaths(storedSettings.recentRightFilePaths)
+		recentRightFilePaths: normalizeRecentFilePaths(storedSettings.recentRightFilePaths),
+		introductionSeen: typeof storedSettings.introductionSeen === "boolean" ? storedSettings.introductionSeen : DEFAULT_SETTINGS.introductionSeen
 	};
 }

@@ -4,6 +4,16 @@ All notable changes to Side-by-Side Diff are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- Added a localized five-step introduction that opens once after an update when it has not been seen yet, covering
+  how to start a comparison, select a file, navigate and review grouped changes, find support resources, and
+  receive a closing thank-you note. It can also be reopened from settings or the command palette.
+
+### Fixed
+
+- Embedded introduction screenshots in the plugin bundle so they remain available in offline release installations.
+
 ## [0.6.1] - 2026-09-14
 
 ### Fixed

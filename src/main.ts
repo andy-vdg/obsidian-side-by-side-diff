@@ -1,6 +1,6 @@
 import { Notice, Plugin, TFile, moment, requireApiVersion } from "obsidian";
 import type { Command, TAbstractFile } from "obsidian";
-import { FilePickerModal } from "./modals";
+import { FilePickerModal, IntroductionModal } from "./modals";
 import { SideBySideDiffView, type PaneMode } from "./diff-view";
 import { isTextFile, VIEW_TYPE } from "./file-utils";
 import { FileDiffSettingsTab, DEFAULT_SETTINGS, isLanguagePreference, normalizePluginSettings, sanitizeCopySuffix, type PluginSettings } from "./settings";
@@ -103,8 +103,31 @@ export class FileDiffSideBySidePlugin extends Plugin {
         id: "previous-change",
         name: this.translate("commands.previousChange"),
         callback: () => { this.navigateActiveComparison("previous"); }
+      }),
+      this.addCommand({
+        id: "show-introduction",
+        name: this.translate("commands.showIntroduction"),
+        callback: () => { this.showIntroduction(); }
       })
     ];
+    this.app.workspace.onLayoutReady(() => { void this.showIntroductionIfNeeded(); });
+  }
+  /** Opens the introduction once for installations that have not seen it yet. */
+  async showIntroductionIfNeeded(): Promise<void> {
+    if (this.settings.introductionSeen) {
+      return;
+    }
+    this.showIntroduction();
+    this.settings.introductionSeen = true;
+    try {
+      await this.saveSettings();
+    } catch (error) {
+      console.error("Side-by-Side Diff konnte den Status der Einführung nicht speichern.", error);
+    }
+  }
+  /** Opens the guided introduction after the workspace can display modal dialogs. */
+  showIntroduction(): void {
+    new IntroductionModal(this.app, this.translator).open();
   }
   /** Saves changes in the currently active comparison view. */
   saveActiveComparison(): void {
@@ -158,7 +181,8 @@ export class FileDiffSideBySidePlugin extends Plugin {
       this.translate("commands.proposeChanges"),
       this.translate("commands.saveComparison"),
       this.translate("commands.nextChange"),
-      this.translate("commands.previousChange")
+      this.translate("commands.previousChange"),
+      this.translate("commands.showIntroduction")
     ];
     this.commandEntries.forEach((command, index) => {
       const commandName = commandNames[index];

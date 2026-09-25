@@ -1,9 +1,239 @@
 import { Modal, SuggestModal } from "obsidian";
 import type { App, TFile } from "obsidian";
+import { AUTHOR_WEBSITE_URL, DOCUMENTATION_URL, GITHUB_FEEDBACK_URL, GITHUB_REPOSITORY_URL } from "./external-links";
 import type { Translator } from "./i18n";
+import { getIntroductionAssetUrl } from "./introduction-assets";
+import type { IntroductionAssetName } from "./introduction-assets";
 import { orderRecentFiles } from "./recent-files";
 
 export type UnsavedChoice = "save" | "discard";
+
+interface IntroductionStep {
+  id: "welcome" | "start" | "selection" | "tips" | "thanks";
+  titleKey: string;
+  descriptionKey: string;
+}
+
+const INTRODUCTION_STEPS: readonly IntroductionStep[] = [
+  {
+    id: "welcome",
+    titleKey: "modal.introduction.welcome.title",
+    descriptionKey: "modal.introduction.welcome.description"
+  },
+  {
+    id: "start",
+    titleKey: "modal.introduction.start.title",
+    descriptionKey: "modal.introduction.start.description"
+  },
+  {
+    id: "selection",
+    titleKey: "modal.introduction.selection.title",
+    descriptionKey: "modal.introduction.selection.description"
+  },
+  {
+    id: "tips",
+    titleKey: "modal.introduction.tips.title",
+    descriptionKey: "modal.introduction.tips.description"
+  },
+  {
+    id: "thanks",
+    titleKey: "modal.introduction.thanks.title",
+    descriptionKey: "modal.introduction.thanks.description"
+  }
+];
+
+/** Introduces the plugin through an extendable activation-time stepper. */
+export class IntroductionModal extends Modal {
+  private readonly translate: Translator;
+  private currentStep = 0;
+
+  /** Creates the localized introduction dialog. */
+  constructor(app: App, translate: Translator) {
+    super(app);
+    this.translate = translate;
+  }
+  /** Prepares the dialog and renders its first introduction step. */
+  override onOpen(): void {
+    this.modalEl.addClass("file-diff-sbs-introduction-modal");
+    this.renderStep();
+  }
+  /** Renders the active step and its available navigation actions. */
+  private renderStep(): void {
+    const step = INTRODUCTION_STEPS[this.currentStep];
+    if (!step) {
+      this.close();
+      return;
+    }
+    this.titleEl.setText(this.translate("modal.introduction.title"));
+    this.contentEl.empty();
+    const stepEl = this.contentEl.createDiv({ cls: "file-diff-sbs-introduction" });
+    stepEl.createEl("h3", { text: this.translate(step.titleKey) });
+    stepEl.createEl("p", { text: this.translate(step.descriptionKey) });
+    this.renderStepContent(step.id, stepEl);
+    const actions = this.contentEl.createDiv({ cls: "file-diff-sbs-introduction-actions" });
+    actions.createSpan({
+      text: this.translate("modal.introduction.progress", {
+        current: this.currentStep + 1,
+        total: INTRODUCTION_STEPS.length
+      }),
+      cls: "file-diff-sbs-introduction-progress"
+    });
+    if (this.currentStep > 0) {
+      const previousButton = actions.createEl("button", { text: this.translate("modal.introduction.previous") });
+      previousButton.addEventListener("click", () => {
+        this.currentStep -= 1;
+        this.renderStep();
+      });
+    }
+    const isFinalStep = this.currentStep === INTRODUCTION_STEPS.length - 1;
+    const continueLabelKey = isFinalStep
+      ? "modal.introduction.finish"
+      : this.currentStep === 0 ? "modal.introduction.startAction" : "modal.introduction.next";
+    const continueButton = actions.createEl("button", {
+      text: this.translate(continueLabelKey),
+      cls: "mod-cta"
+    });
+    continueButton.addEventListener("click", () => {
+      if (isFinalStep) {
+        this.close();
+        return;
+      }
+      this.currentStep += 1;
+      this.renderStep();
+    });
+  }
+  /** Renders the page-specific content for an introduction step. */
+  private renderStepContent(stepId: IntroductionStep["id"], parent: HTMLElement): void {
+    if (stepId === "welcome") {
+      this.renderWelcomeContent(parent);
+      return;
+    }
+    if (stepId === "start") {
+      this.renderStartContent(parent);
+      return;
+    }
+    if (stepId === "selection") {
+      this.renderFileSelectionContent(parent);
+      return;
+    }
+    if (stepId === "tips") {
+      this.renderTipsContent(parent);
+      return;
+    }
+    this.renderThankYouContent(parent);
+  }
+  /** Adds feedback, bug-report, and documentation sections to the welcome page. */
+  private renderWelcomeContent(parent: HTMLElement): void {
+    const feedback = this.appendIntroductionSection(
+      parent,
+      "modal.introduction.welcome.feedback.title",
+      "modal.introduction.welcome.feedback.description"
+    );
+    const feedbackLinks = feedback.createDiv({ cls: "file-diff-sbs-introduction-links" });
+    this.appendExternalLink(feedbackLinks, "settings.about.star", GITHUB_REPOSITORY_URL);
+    this.appendExternalLink(feedbackLinks, "settings.about.feedback", GITHUB_FEEDBACK_URL);
+    const bugReport = this.appendIntroductionSection(
+      parent,
+      "modal.introduction.welcome.reportBug.title",
+      "modal.introduction.welcome.reportBug.description"
+    );
+    const bugReportLinks = bugReport.createDiv({ cls: "file-diff-sbs-introduction-links" });
+    this.appendExternalLink(bugReportLinks, "modal.introduction.welcome.reportBug.link", GITHUB_FEEDBACK_URL);
+    const documentation = this.appendIntroductionSection(
+      parent,
+      "modal.introduction.welcome.documentation.title",
+      "modal.introduction.welcome.documentation.description"
+    );
+    const documentationLinks = documentation.createDiv({ cls: "file-diff-sbs-introduction-links" });
+    this.appendExternalLink(documentationLinks, "modal.introduction.welcome.documentation.link", DOCUMENTATION_URL);
+  }
+  /** Describes both file-menu entry points for starting a comparison. */
+  private renderStartContent(parent: HTMLElement): void {
+    const workflows = parent.createDiv({ cls: "file-diff-sbs-introduction-workflows" });
+    this.appendWorkflow(
+      workflows,
+      "modal.introduction.start.single.title",
+      "modal.introduction.start.single.description",
+      "file-menu.webp",
+      "modal.introduction.start.single.imageAlt"
+    );
+    this.appendWorkflow(
+      workflows,
+      "modal.introduction.start.multiple.title",
+      "modal.introduction.start.multiple.description",
+      "compare-two-files-menu.png",
+      "modal.introduction.start.multiple.imageAlt"
+    );
+  }
+  /** Shows the right-file selection screen used after starting with one file. */
+  private renderFileSelectionContent(parent: HTMLElement): void {
+    this.appendImage(parent, "file-selection.png", "modal.introduction.selection.imageAlt");
+  }
+  /** Lists the most useful navigation and review shortcuts. */
+  private renderTipsContent(parent: HTMLElement): void {
+    const keyboard = this.appendTip(parent, "modal.introduction.tips.keyboard.title", "modal.introduction.tips.keyboard.description");
+    this.appendImage(keyboard, "keyboard-shortcuts.webp", "modal.introduction.tips.keyboard.imageAlt");
+    const groups = this.appendTip(parent, "modal.introduction.tips.groups.title", "modal.introduction.tips.groups.description");
+    this.appendImage(groups, "grouped-changes.png", "modal.introduction.tips.groups.imageAlt");
+  }
+  /** Adds the closing note and link to the developer's website. */
+  private renderThankYouContent(parent: HTMLElement): void {
+    const note = parent.createEl("p", { text: this.translate("modal.introduction.thanks.websitePrefix") });
+    note.appendText(" ");
+    this.appendExternalLink(note, "modal.introduction.thanks.websiteLink", AUTHOR_WEBSITE_URL);
+    note.appendText(".");
+    const feedback = parent.createEl("p", { text: this.translate("modal.introduction.thanks.feedbackPrefix") });
+    feedback.appendText(" ");
+    this.appendExternalLink(feedback, "modal.introduction.thanks.feedbackLink", GITHUB_FEEDBACK_URL);
+    feedback.appendText(".");
+  }
+  /** Adds one illustrated comparison-start workflow. */
+  private appendWorkflow(parent: HTMLElement, titleKey: string, descriptionKey: string, assetName: IntroductionAssetName, imageAltKey: string): void {
+    const workflow = parent.createEl("article", { cls: "file-diff-sbs-introduction-workflow" });
+    workflow.createEl("h4", { text: this.translate(titleKey) });
+    workflow.createEl("p", { text: this.translate(descriptionKey) });
+    this.appendImage(workflow, assetName, imageAltKey);
+  }
+  /** Adds a screenshot from the plugin's bundled assets. */
+  private appendImage(parent: HTMLElement, assetName: IntroductionAssetName, altKey: string): void {
+    parent.createEl("img", {
+      cls: "file-diff-sbs-introduction-image",
+      attr: {
+        src: getIntroductionAssetUrl(assetName),
+        alt: this.translate(altKey)
+      }
+    });
+  }
+  /** Adds a titled introduction section and returns it for supplementary links or images. */
+  private appendIntroductionSection(parent: HTMLElement, titleKey: string, descriptionKey: string): HTMLElement {
+    const section = parent.createEl("section", { cls: "file-diff-sbs-introduction-section" });
+    section.createEl("h4", { text: this.translate(titleKey) });
+    section.createEl("p", { text: this.translate(descriptionKey) });
+    return section;
+  }
+  /** Adds a titled tip section to the final page. */
+  private appendTip(parent: HTMLElement, titleKey: string, descriptionKey: string): HTMLElement {
+    const tip = this.appendIntroductionSection(parent, titleKey, descriptionKey);
+    tip.addClass("file-diff-sbs-introduction-tip");
+    return tip;
+  }
+  /** Adds an external link that opens in the default browser. */
+  private appendExternalLink(parent: HTMLElement, labelKey: string, href: string): void {
+    parent.createEl("a", {
+      text: this.translate(labelKey),
+      href,
+      attr: {
+        target: "_blank",
+        rel: "noopener"
+      }
+    });
+  }
+  /** Clears dialog content after the introduction is dismissed. */
+  override onClose(): void {
+    this.modalEl.removeClass("file-diff-sbs-introduction-modal");
+    this.contentEl.empty();
+  }
+}
 
 /** Confirms moving an identical vault file to the system trash. */
 export class DeleteIdenticalFileModal extends Modal {

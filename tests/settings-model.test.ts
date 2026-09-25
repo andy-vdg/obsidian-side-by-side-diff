@@ -14,7 +14,8 @@ test("normalizes incomplete persisted settings using safe defaults", () => {
 		autoAdvanceAfterChange: true,
 		changeCopySuffix: "draft_",
 		language: "auto",
-		recentRightFilePaths: ["first.md", "second.md"]
+		recentRightFilePaths: ["first.md", "second.md"],
+		introductionSeen: false
 	});
 });
 
@@ -34,6 +35,12 @@ test("preserves valid settings while sanitizing every path separator", () => {
 		autoAdvanceAfterChange: false,
 		changeCopySuffix: "a_b_c_d_e_f_g_h_i_",
 		language: "de",
-		recentRightFilePaths: ["one.md"]
+		recentRightFilePaths: ["one.md"],
+		introductionSeen: false
 	});
+});
+
+test("preserves a persisted introduction status", () => {
+	assert.equal(normalizePluginSettings({ introductionSeen: true }).introductionSeen, true);
+	assert.equal(normalizePluginSettings({ introductionSeen: "true" }).introductionSeen, false);
 });
