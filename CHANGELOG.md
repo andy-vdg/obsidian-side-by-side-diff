@@ -4,6 +4,8 @@ All notable changes to Side-by-Side Diff are documented here.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-20
+
 ### Added
 
 - Added optional Markdown heading alignment using matching ATX headings as section anchors, with English and German
