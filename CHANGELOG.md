@@ -4,6 +4,10 @@ All notable changes to Side-by-Side Diff are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- Added an `obsidian://side-by-side-diff` URI action to open a comparison from two vault-relative paths, with optional vault targeting and localized validation errors.
+
 ## [0.8.0] - 2026-10-20
 
 ### Added
