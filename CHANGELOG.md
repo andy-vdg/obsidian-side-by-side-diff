@@ -4,6 +4,10 @@ All notable changes to Side-by-Side Diff are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- Added French, Italian, Spanish, Brazilian Portuguese, European Portuguese, and Dutch interface translations, including automatic language detection and language-selection options.
+
 ## [0.8.0] - 2026-10-20
 
 ### Added

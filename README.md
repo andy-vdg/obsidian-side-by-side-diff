@@ -42,7 +42,7 @@ selectively accept or reject edits; changes are written only when explicitly sav
 - remember the last five right-hand files and show them first in the right-file selector
 - edit the right-hand file directly and save changes in one step
 - create change proposals as timestamped copies and later apply them to the original
-- display the interface automatically in German or English
+- display the interface automatically in German, English, Spanish, Brazilian or European Portuguese, French, Italian, or Dutch
 - work entirely locally within the Obsidian vault
 
 ## Quick start
@@ -131,8 +131,9 @@ For a manual installation, copy the plugin folder to `.obsidian/plugins/side-by-
 
 The plugin is currently marked as desktop-only because mobile support has not been tested yet.
 
-Set the interface language under **Settings → Side-by-Side Diff → Language** to `Automatic`, `Deutsch`, or `English`.
-In automatic mode, the Obsidian language is used when supported; unsupported languages fall back to English.
+Set the interface language under **Settings → Side-by-Side Diff → Language** to `Automatic`, `Deutsch`, `English`,
+`Español`, `Português (Brasil)`, `Português (Portugal)`, `Français`, `Italiano`, or `Nederlands`. In automatic mode, supported Obsidian languages are used;
+unsupported languages fall back to English.
 The About section at the top links to the developer website, the GitHub repository for stars, and the issue page for
 feedback.
 

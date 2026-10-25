@@ -6,7 +6,7 @@ test("normalizes incomplete persisted settings using safe defaults", () => {
 	assert.deepEqual(normalizePluginSettings(null), DEFAULT_SETTINGS);
 	assert.deepEqual(normalizePluginSettings({
 		showRibbonIcon: false,
-		language: "fr",
+		language: "zh",
 		changeCopySuffix: "draft/",
 		recentRightFilePaths: ["first.md", "first.md", 42, "second.md"]
 	}), {
@@ -40,6 +40,15 @@ test("preserves valid settings while sanitizing every path separator", () => {
 		recentRightFilePaths: ["one.md"],
 		introductionSeen: false
 	});
+});
+
+test("accepts all added locales as saved language preferences", () => {
+	assert.equal(normalizePluginSettings({ language: "fr" }).language, "fr");
+	assert.equal(normalizePluginSettings({ language: "it" }).language, "it");
+	assert.equal(normalizePluginSettings({ language: "es" }).language, "es");
+	assert.equal(normalizePluginSettings({ language: "pt-BR" }).language, "pt-BR");
+	assert.equal(normalizePluginSettings({ language: "pt-PT" }).language, "pt-PT");
+	assert.equal(normalizePluginSettings({ language: "nl" }).language, "nl");
 });
 
 test("preserves a persisted introduction status", () => {

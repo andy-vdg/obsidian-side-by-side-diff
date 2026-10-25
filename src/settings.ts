@@ -40,7 +40,13 @@ export class FileDiffSettingsTab extends PluginSettingTab {
           options: {
             auto: this.plugin.translate("settings.language.auto"),
             de: this.plugin.translate("settings.language.de"),
-            en: this.plugin.translate("settings.language.en")
+            en: this.plugin.translate("settings.language.en"),
+            fr: this.plugin.translate("settings.language.fr"),
+            it: this.plugin.translate("settings.language.it"),
+            es: this.plugin.translate("settings.language.es"),
+            "pt-BR": this.plugin.translate("settings.language.pt-BR"),
+            "pt-PT": this.plugin.translate("settings.language.pt-PT"),
+            nl: this.plugin.translate("settings.language.nl")
           }
         }
       },
@@ -121,7 +127,7 @@ export class FileDiffSettingsTab extends PluginSettingTab {
       button.setButtonText(this.plugin.translate("settings.introduction.button")).onClick(() => { this.plugin.showIntroduction(); });
     });
     new Setting(containerEl).setName(this.plugin.translate("settings.language.name")).setDesc(this.plugin.translate("settings.language.description")).addDropdown((dropdown) => {
-      dropdown.addOption("auto", this.plugin.translate("settings.language.auto")).addOption("de", this.plugin.translate("settings.language.de")).addOption("en", this.plugin.translate("settings.language.en")).setValue(this.plugin.settings.language).onChange(async (value) => {
+      dropdown.addOption("auto", this.plugin.translate("settings.language.auto")).addOption("de", this.plugin.translate("settings.language.de")).addOption("en", this.plugin.translate("settings.language.en")).addOption("fr", this.plugin.translate("settings.language.fr")).addOption("it", this.plugin.translate("settings.language.it")).addOption("es", this.plugin.translate("settings.language.es")).addOption("pt-BR", this.plugin.translate("settings.language.pt-BR")).addOption("pt-PT", this.plugin.translate("settings.language.pt-PT")).addOption("nl", this.plugin.translate("settings.language.nl")).setValue(this.plugin.settings.language).onChange(async (value) => {
         this.plugin.updateLanguage(value);
         await this.plugin.saveSettings();
         this.renderLegacySettings();
