@@ -8,8 +8,8 @@ instructions and keep task-specific procedures in `agent-skills/`.
 ## Language
 
 - Write agent instructions, skills, and project process documentation in English.
-- Preserve the required language of user-facing content. The plugin ships German and English translations, so update
-  both locale files and keep their keys aligned when adding visible strings.
+- Preserve the required language of user-facing content. The plugin ships German, English, French, Italian, Spanish,
+  Brazilian Portuguese, European Portuguese, Dutch, and Simplified Chinese translations, so keep every locale file's keys aligned when adding visible strings.
 
 ## Project Map
 

@@ -6,7 +6,12 @@ All notable changes to Side-by-Side Diff are documented here.
 
 ### Added
 
+- Added French, Italian, Spanish, Brazilian Portuguese, European Portuguese, and Dutch interface translations, including automatic language detection and language-selection options.
 - Added Simplified Chinese interface translations, automatic language detection, and a `简体中文` language option.
+
+### Fixed
+
+- Recognize Obsidian's `pt` locale as European Portuguese in automatic language mode instead of Brazilian Portuguese.
 
 ## [0.8.0] - 2026-10-20
 

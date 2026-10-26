@@ -2,17 +2,30 @@ import { describe, test } from "node:test";
 import assert from "node:assert/strict";
 import de from "../locales/de.json" with { type: "json" };
 import en from "../locales/en.json" with { type: "json" };
+import fr from "../locales/fr.json" with { type: "json" };
+import it from "../locales/it.json" with { type: "json" };
+import es from "../locales/es.json" with { type: "json" };
+import ptBR from "../locales/pt-BR.json" with { type: "json" };
+import ptPT from "../locales/pt-PT.json" with { type: "json" };
+import nl from "../locales/nl.json" with { type: "json" };
 import zhCN from "../locales/zh-CN.json" with { type: "json" };
 import { createTranslator, resolveLanguage } from "../src/i18n.ts";
 
 describe("UI translations", () => {
-	test("all dictionaries contain the same keys", () => {
-		assert.deepEqual(Object.keys(de).sort(), Object.keys(en).sort());
-		assert.deepEqual(Object.keys(zhCN).sort(), Object.keys(en).sort());
+	test("all locale dictionaries contain the same keys", () => {
+		const keys = Object.keys(en).sort();
+		assert.deepEqual(Object.keys(de).sort(), keys);
+		assert.deepEqual(Object.keys(fr).sort(), keys);
+		assert.deepEqual(Object.keys(it).sort(), keys);
+		assert.deepEqual(Object.keys(es).sort(), keys);
+		assert.deepEqual(Object.keys(ptBR).sort(), keys);
+		assert.deepEqual(Object.keys(ptPT).sort(), keys);
+		assert.deepEqual(Object.keys(nl).sort(), keys);
+		assert.deepEqual(Object.keys(zhCN).sort(), keys);
 	});
 
 	test("all translations preserve placeholders and contain nonempty strings", () => {
-		for (const dictionary of [de, en, zhCN]) {
+		for (const dictionary of [de, en, fr, it, es, ptBR, ptPT, nl, zhCN]) {
 			for (const key of Object.keys(en) as (keyof typeof en)[]) {
 				const translation = dictionary[key];
 				assert.ok(translation.trim().length > 0, key);
@@ -28,6 +41,12 @@ describe("UI translations", () => {
 	test("translates labels and replaces variables", () => {
 		assert.equal(createTranslator("de")("settings.language.name"), "Sprache");
 		assert.equal(createTranslator("en")("settings.language.name"), "Language");
+		assert.equal(createTranslator("fr")("settings.language.name"), "Langue");
+		assert.equal(createTranslator("it")("settings.language.name"), "Lingua");
+		assert.equal(createTranslator("es")("settings.language.name"), "Idioma");
+		assert.equal(createTranslator("pt-BR")("settings.language.name"), "Idioma");
+		assert.equal(createTranslator("pt-PT")("settings.language.name"), "Idioma");
+		assert.equal(createTranslator("nl")("settings.language.name"), "Taal");
 		assert.equal(
 			createTranslator("en")("notice.fileTrashed", { name: "Notes.md" }),
 			"“Notes.md” was moved to the trash.",
@@ -49,10 +68,29 @@ describe("UI translations", () => {
 		assert.equal(createTranslator("de")("commands.showIntroduction"), "Einführung anzeigen");
 	});
 
+	test("distinguishes Obsidian's European and Brazilian Portuguese locale codes", () => {
+		assert.equal(resolveLanguage("auto", "pt"), "pt-PT");
+		assert.equal(resolveLanguage("auto", "pt-br"), "pt-BR");
+	});
+
 	test("accepts only supported explicit languages", () => {
 		assert.equal(resolveLanguage("de"), "de");
 		assert.equal(resolveLanguage("en"), "en");
+		assert.equal(resolveLanguage("fr"), "fr");
+		assert.equal(resolveLanguage("it"), "it");
+		assert.equal(resolveLanguage("es"), "es");
+		assert.equal(resolveLanguage("pt-BR"), "pt-BR");
+		assert.equal(resolveLanguage("pt-PT"), "pt-PT");
+		assert.equal(resolveLanguage("nl"), "nl");
 		assert.equal(resolveLanguage("zh-CN", "de-DE"), "zh-CN");
+		assert.equal(resolveLanguage("auto", "fr-CA"), "fr");
+		assert.equal(resolveLanguage("auto", "it-IT"), "it");
+		assert.equal(resolveLanguage("auto", "es-ES"), "es");
+		assert.equal(resolveLanguage("auto", "pt-BR"), "pt-BR");
+		assert.equal(resolveLanguage("auto", "pt-PT"), "pt-PT");
+		assert.equal(resolveLanguage("auto", "pt-PT-1990"), "pt-PT");
+		assert.equal(resolveLanguage("auto", "nl-NL"), "nl");
+		assert.equal(resolveLanguage("auto", "zh-CN"), "zh-CN");
 	});
 
 	test("detects Simplified Chinese without selecting it for Traditional Chinese", () => {
