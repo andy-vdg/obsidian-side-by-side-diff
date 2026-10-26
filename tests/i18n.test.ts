@@ -52,6 +52,11 @@ describe("UI translations", () => {
 		assert.equal(createTranslator("de")("commands.showIntroduction"), "Einführung anzeigen");
 	});
 
+	test("distinguishes Obsidian's European and Brazilian Portuguese locale codes", () => {
+		assert.equal(resolveLanguage("auto", "pt"), "pt-PT");
+		assert.equal(resolveLanguage("auto", "pt-br"), "pt-BR");
+	});
+
 	test("accepts only supported explicit languages", () => {
 		assert.equal(resolveLanguage("de"), "de");
 		assert.equal(resolveLanguage("en"), "en");

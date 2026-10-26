@@ -32,7 +32,8 @@ function detectSystemLanguage(locale = ""): Language {
 	if (detectedLocale.startsWith("fr")) return "fr";
 	if (detectedLocale.startsWith("it")) return "it";
 	if (detectedLocale.startsWith("es")) return "es";
-	if (detectedLocale.startsWith("pt-pt")) return "pt-PT";
+	// Obsidian/Moment uses "pt" for European Portuguese and "pt-br" for Brazil.
+	if (detectedLocale === "pt" || detectedLocale.startsWith("pt-pt")) return "pt-PT";
 	if (detectedLocale.startsWith("pt")) return "pt-BR";
 	if (detectedLocale.startsWith("nl")) return "nl";
 	return "en";
