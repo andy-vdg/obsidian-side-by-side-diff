@@ -96,7 +96,7 @@ For changes to the view or save logic, check at least these cases:
 - confirmation prompt when closing with unsaved changes
 - creating, reusing, and applying a change copy
 - ribbon visibility and suffix in settings
-- language switching between `Automatic`, `Deutsch`, `English`, and `简体中文`
+- language switching between `Automatic`, `Deutsch`, `English`, `Français`, `Italiano`, `Español`, `Português (Brasil)`, `Português (Portugal)`, `Nederlands`, and `简体中文`
 - files with different line endings
 
 ## Documentation

@@ -14,6 +14,9 @@ agent-skills/
 ├── commit-side-by-side-diff/
 │   ├── SKILL.md
 │   └── agents/openai.yaml
+├── check-github-pr/
+│   ├── SKILL.md
+│   └── agents/openai.yaml
 └── publish-obsidian-plugin-release/
     ├── SKILL.md
     └── agents/openai.yaml
@@ -23,6 +26,8 @@ agent-skills/
 
 - `fix-side-by-side-diff-bug` fixes a reported bug with a regression test and a changelog entry.
 - `commit-side-by-side-diff` creates focused commits without pushing, tagging, or publishing.
+- `check-github-pr` reviews a plugin PR, reports findings and validation gaps, and guides requested fixes through
+  validation and an explicitly authorized update of the existing PR branch.
 - `publish-obsidian-plugin-release` prepares a release and hands the publishing command to the user.
 
 ## Maintaining Skills

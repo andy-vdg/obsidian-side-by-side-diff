@@ -175,5 +175,11 @@
 	"settings.language.auto": "Automatisch",
 	"settings.language.de": "Deutsch",
 	"settings.language.en": "English",
+	"settings.language.fr": "Französisch",
+	"settings.language.it": "Italienisch",
+	"settings.language.es": "Spanisch",
+	"settings.language.pt-BR": "Portugiesisch (Brasilien)",
+	"settings.language.pt-PT": "Portugiesisch (Portugal)",
+	"settings.language.nl": "Niederländisch",
 	"settings.language.zh-CN": "简体中文"
 }
