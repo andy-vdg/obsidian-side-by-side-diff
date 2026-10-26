@@ -110,10 +110,12 @@ visible, can be reviewed and staged individually, and are written only through a
 
 ### Translated interface
 
-- The visible plugin interface is available in German and English.
-- Under **Settings → Side-by-Side Diff → Language**, `Automatic`, `Deutsch`, and `English` are available.
+- The visible plugin interface is available in German, English, French, Italian, Spanish, Brazilian Portuguese, European Portuguese, Dutch, and Simplified Chinese.
+- Under **Settings → Side-by-Side Diff → Language**, `Automatic`, `Deutsch`, `English`, `Français`, `Italiano`, `Español`, `Português (Brasil)`, `Português (Portugal)`, `Nederlands`, and `简体中文` are available.
 - `Automatic` follows the Obsidian language; unsupported languages fall back to English.
-- Translations live separately in `locales/de.json` and `locales/en.json`.
+- Simplified Chinese detection supports `zh`, `zh-CN`, `zh-SG`, and `zh-Hans` locales. Traditional Chinese locales
+  retain the English fallback.
+- Translations live separately in `locales/`, with the same keys and placeholders across all dictionaries.
 
 ## Access points in Obsidian
 

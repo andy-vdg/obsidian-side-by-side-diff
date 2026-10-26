@@ -6,8 +6,9 @@ import esTranslations from "../locales/es.json" with { type: "json" };
 import ptBRTranslations from "../locales/pt-BR.json" with { type: "json" };
 import ptPTTranslations from "../locales/pt-PT.json" with { type: "json" };
 import nlTranslations from "../locales/nl.json" with { type: "json" };
+import zhCNTranslations from "../locales/zh-CN.json" with { type: "json" };
 
-export type Language = "de" | "en" | "fr" | "it" | "es" | "pt-BR" | "pt-PT" | "nl";
+export type Language = "de" | "en" | "fr" | "it" | "es" | "pt-BR" | "pt-PT" | "nl" | "zh-CN";
 export type LanguagePreference = "auto" | Language;
 type TranslationVariables = Record<string, string | number>;
 type TranslationTable = Record<string, string>;
@@ -22,6 +23,7 @@ const TRANSLATIONS: Record<Language, TranslationTable> = {
 	"pt-BR": ptBRTranslations,
 	"pt-PT": ptPTTranslations,
 	nl: nlTranslations,
+	"zh-CN": zhCNTranslations,
 };
 
 /** Detects a locale for automatic translation selection. */
@@ -36,6 +38,8 @@ function detectSystemLanguage(locale = ""): Language {
 	if (detectedLocale === "pt" || detectedLocale.startsWith("pt-pt")) return "pt-PT";
 	if (detectedLocale.startsWith("pt")) return "pt-BR";
 	if (detectedLocale.startsWith("nl")) return "nl";
+	// Obsidian uses "zh" and Moment uses "zh-cn"; exclude Traditional Chinese locales.
+	if (/^zh(?:$|-(?:cn|sg|hans)(?:-|$))/.test(detectedLocale)) return "zh-CN";
 	return "en";
 }
 

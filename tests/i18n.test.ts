@@ -8,6 +8,7 @@ import es from "../locales/es.json" with { type: "json" };
 import ptBR from "../locales/pt-BR.json" with { type: "json" };
 import ptPT from "../locales/pt-PT.json" with { type: "json" };
 import nl from "../locales/nl.json" with { type: "json" };
+import zhCN from "../locales/zh-CN.json" with { type: "json" };
 import { createTranslator, resolveLanguage } from "../src/i18n.ts";
 
 describe("UI translations", () => {
@@ -20,6 +21,21 @@ describe("UI translations", () => {
 		assert.deepEqual(Object.keys(ptBR).sort(), keys);
 		assert.deepEqual(Object.keys(ptPT).sort(), keys);
 		assert.deepEqual(Object.keys(nl).sort(), keys);
+		assert.deepEqual(Object.keys(zhCN).sort(), keys);
+	});
+
+	test("all translations preserve placeholders and contain nonempty strings", () => {
+		for (const dictionary of [de, en, fr, it, es, ptBR, ptPT, nl, zhCN]) {
+			for (const key of Object.keys(en) as (keyof typeof en)[]) {
+				const translation = dictionary[key];
+				assert.ok(translation.trim().length > 0, key);
+				assert.deepEqual(
+					translation.match(/\{[a-zA-Z0-9_.-]+\}/g)?.sort() ?? [],
+					en[key].match(/\{[a-zA-Z0-9_.-]+\}/g)?.sort() ?? [],
+					key,
+				);
+			}
+		}
 	});
 
 	test("translates labels and replaces variables", () => {
@@ -66,6 +82,7 @@ describe("UI translations", () => {
 		assert.equal(resolveLanguage("pt-BR"), "pt-BR");
 		assert.equal(resolveLanguage("pt-PT"), "pt-PT");
 		assert.equal(resolveLanguage("nl"), "nl");
+		assert.equal(resolveLanguage("zh-CN", "de-DE"), "zh-CN");
 		assert.equal(resolveLanguage("auto", "fr-CA"), "fr");
 		assert.equal(resolveLanguage("auto", "it-IT"), "it");
 		assert.equal(resolveLanguage("auto", "es-ES"), "es");
@@ -73,6 +90,25 @@ describe("UI translations", () => {
 		assert.equal(resolveLanguage("auto", "pt-PT"), "pt-PT");
 		assert.equal(resolveLanguage("auto", "pt-PT-1990"), "pt-PT");
 		assert.equal(resolveLanguage("auto", "nl-NL"), "nl");
-		assert.equal(resolveLanguage("auto", "zh-CN"), "en");
+		assert.equal(resolveLanguage("auto", "zh-CN"), "zh-CN");
+	});
+
+	test("detects Simplified Chinese without selecting it for Traditional Chinese", () => {
+		for (const locale of ["zh", "zh-cn", "ZH-CN", "zh-SG", "zh-Hans", "zh-Hans-CN", "zh-Hans-SG"]) {
+			assert.equal(resolveLanguage("auto", locale), "zh-CN", locale);
+		}
+		for (const locale of ["zh-TW", "zh-HK", "zh-MO", "zh-Hant", "zh-Hant-TW", "zh-Hant-CN", "ja-JP"]) {
+			assert.equal(resolveLanguage("auto", locale), "en", locale);
+		}
+		assert.equal(resolveLanguage("auto", "de-DE"), "de");
+		assert.equal(resolveLanguage("en", "zh-CN"), "en");
+	});
+
+	test("translates Chinese labels and interpolates filenames and progress", () => {
+		const translate = createTranslator("zh-CN");
+		assert.equal(translate("settings.language.name"), "语言");
+		assert.equal(translate("settings.language.zh-CN"), "简体中文");
+		assert.equal(translate("notice.fileTrashed", { name: "笔记.md" }), "已将“笔记.md”移至回收站。");
+		assert.equal(translate("modal.introduction.progress", { current: 2, total: 5 }), "第 2 步，共 5 步");
 	});
 });
