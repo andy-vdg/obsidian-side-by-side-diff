@@ -33,8 +33,8 @@ files in `src/`, run `npm run build` first, then reload the plugin view or Obsid
 - Keep functions small and use early returns where that makes the logic clearer.
 - Add short technical comments at non-obvious points; new classes and functions get a short docblock.
 - Use the existing German terms in the interface, along with correct umlauts and `ß`.
-- New visible strings belong in `locales/de.json` and `locales/en.json`; keep the keys identical in both files.
-- Check both languages for new placeholders and use stable keys instead of visible text as logic markers.
+- New visible strings belong in every file under `locales/`; keep the keys and placeholders identical across all files.
+- Check every language for new placeholders and use stable keys instead of visible text as logic markers.
 - Never write a file while typing or on a single diff action. Changes must stay staged until explicitly saved.
 - Avoid non-deterministic ordering and changes outside the affected area.
 
@@ -77,7 +77,7 @@ The tests cover the deterministic diff, synchronization, and translation rules, 
 - preserving line endings and trailing blank lines
 - distinguishing intentional empty lines from visual alignment gaps
 - excluding visual alignment gaps when saving
-- matching keys and placeholders across the German and English translations
+- matching keys and placeholders across all locale dictionaries
 - selecting the next and previous change, including wraparound and resolved-row handling
 - honoring the configurable automatic advance after accepting or ignoring a change
 - protecting pending changes when entering edit mode or swapping panes
@@ -96,7 +96,7 @@ For changes to the view or save logic, check at least these cases:
 - confirmation prompt when closing with unsaved changes
 - creating, reusing, and applying a change copy
 - ribbon visibility and suffix in settings
-- language switching between `Automatic`, `Deutsch`, and `English`
+- language switching between `Automatic`, `Deutsch`, `English`, and `简体中文`
 - files with different line endings
 
 ## Documentation
@@ -106,7 +106,7 @@ Update the documentation whenever a visible flow, command, setting, or requireme
 - `README.md` stays the short entry-point page.
 - `FEATURES.md` describes the full feature scope and acceptance criteria.
 - `CONTRIBUTING.md` describes the development and review workflow.
-- `locales/de.json` and `locales/en.json` hold the UI translations.
+- `locales/` holds the UI translations for all supported languages.
 
 ## Contribution checklist
 

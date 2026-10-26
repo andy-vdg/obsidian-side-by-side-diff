@@ -7,6 +7,7 @@ All notable changes to Side-by-Side Diff are documented here.
 ### Added
 
 - Added an `obsidian://side-by-side-diff` URI action to open a comparison from two vault-relative paths, with optional vault targeting and localized validation errors.
+- Added Simplified Chinese interface translations, automatic language detection, and a `简体中文` language option.
 
 ## [0.8.0] - 2026-10-20
 

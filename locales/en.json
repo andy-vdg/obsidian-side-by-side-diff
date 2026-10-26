@@ -174,5 +174,6 @@
 	"settings.language.description": "Choose the language of the plugin interface.",
 	"settings.language.auto": "Automatic",
 	"settings.language.de": "Deutsch",
-	"settings.language.en": "English"
+	"settings.language.en": "English",
+	"settings.language.zh-CN": "简体中文"
 }

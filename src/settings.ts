@@ -40,7 +40,8 @@ export class FileDiffSettingsTab extends PluginSettingTab {
           options: {
             auto: this.plugin.translate("settings.language.auto"),
             de: this.plugin.translate("settings.language.de"),
-            en: this.plugin.translate("settings.language.en")
+            en: this.plugin.translate("settings.language.en"),
+            "zh-CN": this.plugin.translate("settings.language.zh-CN")
           }
         }
       },
@@ -121,7 +122,7 @@ export class FileDiffSettingsTab extends PluginSettingTab {
       button.setButtonText(this.plugin.translate("settings.introduction.button")).onClick(() => { this.plugin.showIntroduction(); });
     });
     new Setting(containerEl).setName(this.plugin.translate("settings.language.name")).setDesc(this.plugin.translate("settings.language.description")).addDropdown((dropdown) => {
-      dropdown.addOption("auto", this.plugin.translate("settings.language.auto")).addOption("de", this.plugin.translate("settings.language.de")).addOption("en", this.plugin.translate("settings.language.en")).setValue(this.plugin.settings.language).onChange(async (value) => {
+      dropdown.addOption("auto", this.plugin.translate("settings.language.auto")).addOption("de", this.plugin.translate("settings.language.de")).addOption("en", this.plugin.translate("settings.language.en")).addOption("zh-CN", this.plugin.translate("settings.language.zh-CN")).setValue(this.plugin.settings.language).onChange(async (value) => {
         this.plugin.updateLanguage(value);
         await this.plugin.saveSettings();
         this.renderLegacySettings();

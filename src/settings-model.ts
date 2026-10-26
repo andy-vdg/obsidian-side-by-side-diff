@@ -25,7 +25,7 @@ export const DEFAULT_SETTINGS: PluginSettings = {
 
 /** Checks whether a persisted or UI value is a supported language preference. */
 export function isLanguagePreference(value: unknown): value is LanguagePreference {
-	return value === "auto" || value === "de" || value === "en";
+	return value === "auto" || value === "de" || value === "en" || value === "zh-CN";
 }
 
 /** Replaces path-invalid suffix characters with safe underscores. */

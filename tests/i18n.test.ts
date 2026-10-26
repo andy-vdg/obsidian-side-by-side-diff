@@ -2,11 +2,27 @@ import { describe, test } from "node:test";
 import assert from "node:assert/strict";
 import de from "../locales/de.json" with { type: "json" };
 import en from "../locales/en.json" with { type: "json" };
+import zhCN from "../locales/zh-CN.json" with { type: "json" };
 import { createTranslator, resolveLanguage } from "../src/i18n.ts";
 
 describe("UI translations", () => {
-	test("German and English dictionaries contain the same keys", () => {
+	test("all dictionaries contain the same keys", () => {
 		assert.deepEqual(Object.keys(de).sort(), Object.keys(en).sort());
+		assert.deepEqual(Object.keys(zhCN).sort(), Object.keys(en).sort());
+	});
+
+	test("all translations preserve placeholders and contain nonempty strings", () => {
+		for (const dictionary of [de, en, zhCN]) {
+			for (const key of Object.keys(en) as (keyof typeof en)[]) {
+				const translation = dictionary[key];
+				assert.ok(translation.trim().length > 0, key);
+				assert.deepEqual(
+					translation.match(/\{[a-zA-Z0-9_.-]+\}/g)?.sort() ?? [],
+					en[key].match(/\{[a-zA-Z0-9_.-]+\}/g)?.sort() ?? [],
+					key,
+				);
+			}
+		}
 	});
 
 	test("translates labels and replaces variables", () => {
@@ -36,5 +52,25 @@ describe("UI translations", () => {
 	test("accepts only supported explicit languages", () => {
 		assert.equal(resolveLanguage("de"), "de");
 		assert.equal(resolveLanguage("en"), "en");
+		assert.equal(resolveLanguage("zh-CN", "de-DE"), "zh-CN");
+	});
+
+	test("detects Simplified Chinese without selecting it for Traditional Chinese", () => {
+		for (const locale of ["zh", "zh-cn", "ZH-CN", "zh-SG", "zh-Hans", "zh-Hans-CN", "zh-Hans-SG"]) {
+			assert.equal(resolveLanguage("auto", locale), "zh-CN", locale);
+		}
+		for (const locale of ["zh-TW", "zh-HK", "zh-MO", "zh-Hant", "zh-Hant-TW", "zh-Hant-CN", "ja-JP"]) {
+			assert.equal(resolveLanguage("auto", locale), "en", locale);
+		}
+		assert.equal(resolveLanguage("auto", "de-DE"), "de");
+		assert.equal(resolveLanguage("en", "zh-CN"), "en");
+	});
+
+	test("translates Chinese labels and interpolates filenames and progress", () => {
+		const translate = createTranslator("zh-CN");
+		assert.equal(translate("settings.language.name"), "语言");
+		assert.equal(translate("settings.language.zh-CN"), "简体中文");
+		assert.equal(translate("notice.fileTrashed", { name: "笔记.md" }), "已将“笔记.md”移至回收站。");
+		assert.equal(translate("modal.introduction.progress", { current: 2, total: 5 }), "第 2 步，共 5 步");
 	});
 });
