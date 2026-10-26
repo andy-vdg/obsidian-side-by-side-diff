@@ -26,6 +26,7 @@ Read the relevant skill before acting on a matching request:
 - `agent-skills/fix-side-by-side-diff-bug/SKILL.md` for fixing a reported bug with a regression test and changelog
   entry.
 - `agent-skills/commit-side-by-side-diff/SKILL.md` for committing current plugin changes.
+- `agent-skills/check-github-pr/SKILL.md` for reviewing a GitHub pull request and reporting actionable findings.
 - `agent-skills/publish-obsidian-plugin-release/SKILL.md` for preparing a plugin release for manual publishing.
 
 ## Changes and Validation

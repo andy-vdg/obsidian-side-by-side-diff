@@ -1,0 +1,4 @@
+interface:
+  display_name: "Check Side-by-Side Diff GitHub PR"
+  short_description: "Review a plugin PR for actionable regressions"
+  default_prompt: "Use $check-github-pr to review the Side-by-Side Diff GitHub pull request I provide."
