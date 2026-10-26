@@ -47,6 +47,11 @@ test("preserves a persisted introduction status", () => {
 	assert.equal(normalizePluginSettings({ introductionSeen: "true" }).introductionSeen, false);
 });
 
+test("preserves Simplified Chinese preferences and rejects unsupported Chinese locales", () => {
+	assert.equal(normalizePluginSettings({ language: "zh-CN" }).language, "zh-CN");
+	assert.equal(normalizePluginSettings({ language: "zh-TW" }).language, "auto");
+});
+
 test("heading alignment is opt-in and preserves unrelated persisted settings", () => {
 	assert.equal(DEFAULT_SETTINGS.alignMarkdownByHeadings, false);
 	assert.equal(normalizePluginSettings({}).alignMarkdownByHeadings, false);
